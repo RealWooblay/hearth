@@ -378,10 +378,21 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at center, transparent 50%, rgba(11,11,10,0.55) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
+.mode-image img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transition: transform 700ms var(--ease);
+}
+.mode.has-image:hover .mode-image img { transform: scale(1.04); }
+.mode.has-image .mode-image::before { display: none; }
 
 /* Each mode gets its own placeholder treatment so it doesn't look broken */
-.mode-image[data-mode-img="kids"]::before     { background: radial-gradient(ellipse 80% 60% at 30% 70%, rgba(244, 184, 96, 0.22), transparent 60%), linear-gradient(135deg, #2A1F14 0%, #0F0B07 100%); }
+.mode-image[data-mode-img="play"]::before     { background: radial-gradient(ellipse 80% 60% at 30% 70%, rgba(244, 184, 96, 0.22), transparent 60%), linear-gradient(135deg, #2A1F14 0%, #0F0B07 100%); }
 .mode-image[data-mode-img="kitchen"]::before  { background: radial-gradient(ellipse 70% 50% at 60% 50%, rgba(244, 184, 96, 0.18), transparent 60%), linear-gradient(135deg, #1F1A14 0%, #0E0C09 100%); }
 .mode-image[data-mode-img="workshop"]::before { background: radial-gradient(ellipse 60% 80% at 50% 40%, rgba(244, 184, 96, 0.14), transparent 65%), linear-gradient(180deg, #1A1612 0%, #0B0A09 100%); }
 .mode-image[data-mode-img="bedroom"]::before  { background: radial-gradient(ellipse 80% 50% at 50% 30%, rgba(244, 184, 96, 0.12), transparent 70%), linear-gradient(180deg, #14131A 0%, #0A0A0E 100%); }

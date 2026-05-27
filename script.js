@@ -48,8 +48,8 @@
 
   /* -------- Mode modal -------- */
   const modeContent = {
-    kids: {
-      eyebrow: '01 — Kids Mode',
+    play: {
+      eyebrow: '01 — Play Mode',
       title: 'Stories that respond.',
       copy: 'Books read themselves and listen back. Puzzles project onto the floor and react to where a child stands. No tablets to hand over, no feeds to scroll, no ads to swipe past. When LUMA hears bedtime, it dims.',
       list: [
