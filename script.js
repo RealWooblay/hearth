@@ -1,5 +1,5 @@
 /* ==========================================================
-   LUMA — interactions
+   WISP — interactions
    ========================================================== */
 
 (() => {
@@ -21,29 +21,105 @@
     revealEls.forEach((el) => el.classList.add('in'));
   }
 
-  /* -------- Modes horizontal scroll progress -------- */
+  /* -------- Modes horizontal scroll: arrows, drag, progress -------- */
   const track = document.querySelector('.modes-track');
   const progress = document.querySelector('.modes-progress-fill');
-  if (track && progress) {
-    const updateProgress = () => {
-      const max = track.scrollWidth - track.clientWidth;
-      const pct = max <= 0 ? 1 : Math.min(1, Math.max(0, track.scrollLeft / max));
-      // Always show some fill so it doesn't look broken at start
-      const visualPct = 0.18 + pct * 0.82;
-      progress.style.width = (visualPct * 100).toFixed(1) + '%';
-    };
-    track.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    updateProgress();
+  const prevBtn = document.querySelector('.modes-prev');
+  const nextBtn = document.querySelector('.modes-next');
 
-    /* Allow horizontal scroll via mouse wheel on desktop */
-    track.addEventListener('wheel', (e) => {
-      if (window.innerWidth <= 700) return; // mobile is vertical
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault();
-        track.scrollLeft += e.deltaY;
+  if (track) {
+    const getStep = () => {
+      const card = track.querySelector('.mode');
+      if (!card) return 400;
+      return card.offsetWidth + 28; // card width + gap
+    };
+
+    const updateState = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const x = track.scrollLeft;
+      if (progress) {
+        const pct = max <= 0 ? 1 : Math.min(1, Math.max(0, x / max));
+        progress.style.width = (18 + pct * 82).toFixed(1) + '%';
       }
-    }, { passive: false });
+      if (prevBtn) prevBtn.disabled = x <= 4;
+      if (nextBtn) nextBtn.disabled = x >= max - 4;
+    };
+
+    track.addEventListener('scroll', updateState, { passive: true });
+    window.addEventListener('resize', updateState);
+    /* initial state after layout settles */
+    requestAnimationFrame(updateState);
+
+    /* Manual rAF smooth scroll — doesn't depend on CSS scroll-behavior */
+    let animId = null;
+    const animateScrollTo = (target, duration = 500) => {
+      if (animId) cancelAnimationFrame(animId);
+      const start = track.scrollLeft;
+      const change = target - start;
+      if (Math.abs(change) < 1) return;
+      const t0 = performance.now();
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      const step = (now) => {
+        const t = Math.min(1, (now - t0) / duration);
+        track.scrollLeft = start + change * ease(t);
+        if (t < 1) animId = requestAnimationFrame(step);
+        else animId = null;
+      };
+      animId = requestAnimationFrame(step);
+    };
+
+    const scrollByStep = (dir) => {
+      const max = track.scrollWidth - track.clientWidth;
+      const target = Math.max(0, Math.min(max, track.scrollLeft + dir * getStep()));
+      animateScrollTo(target);
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', () => scrollByStep(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => scrollByStep(1));
+
+    /* Drag to scroll (desktop only — mobile uses native touch) */
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    const onDown = (e) => {
+      if (window.innerWidth <= 700) return;
+      if (e.target.closest('button, a')) return; // don't hijack control clicks
+      isDown = true;
+      moved = false;
+      startX = e.pageX;
+      startScroll = track.scrollLeft;
+      track.classList.add('dragging');
+    };
+    const onMove = (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      track.scrollLeft = startScroll - dx;
+    };
+    const onUp = () => {
+      if (!isDown) return;
+      isDown = false;
+      track.classList.remove('dragging');
+    };
+
+    track.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    track.addEventListener('mouseleave', onUp);
+
+    /* Swallow click after a drag so links/buttons don't fire */
+    track.addEventListener('click', (e) => {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+
+    /* Keyboard arrows when track is focused */
+    track.tabIndex = 0;
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); scrollByStep(1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByStep(-1); }
+    });
   }
 
   /* -------- Mode modal -------- */
@@ -51,7 +127,7 @@
     play: {
       eyebrow: '01 — Play Mode',
       title: 'Stories that respond.',
-      copy: 'Books read themselves and listen back. Puzzles project onto the floor and react to where a child stands. No tablets to hand over, no feeds to scroll, no ads to swipe past. When LUMA hears bedtime, it dims.',
+      copy: 'Books read themselves and listen back. Puzzles project onto the floor and react to where a child stands. No tablets to hand over, no feeds to scroll, no ads to swipe past. When WISP hears bedtime, it dims.',
       list: [
         'Adaptive stories that respond to a child\'s voice',
         'Floor games for two or more',
@@ -61,19 +137,20 @@
     },
     kitchen: {
       eyebrow: '02 — Kitchen Mode',
-      title: 'The recipe is on the counter.',
-      copy: 'Project a recipe onto the worktop and your hands stay where they are. Ask a question with batter on them and LUMA hears. Timers live on the backsplash. The cookbook stand retires.',
+      title: 'A cook in the room with you.',
+      copy: 'Tell WISP what you have and it tells you what to make. It reads recipes out at your pace, halves the quantities when you ask, suggests a swap when you\'re out of butter, and warns you when the pan is about to burn. The cookbook stand retires.',
       list: [
-        'Recipes projected step-by-step onto the counter',
+        'Recipes read aloud, paced to your hands',
+        'Substitutions and quantity scaling, on the fly',
+        'Technique tips — "fold, don\'t stir", "let it rest"',
+        'Timers, temperatures, and conversions in light',
         'Voice control with wet, sticky, or busy hands',
-        'Timers, conversions, substitutions in light',
-        'Works with your existing recipe library',
       ],
     },
     workshop: {
       eyebrow: '03 — Workshop Mode',
       title: 'Schematics on the workbench.',
-      copy: 'Cut lines onto plywood, exploded views onto the bench, dimensions onto the wall. LUMA sees what you\'re doing and shows you what comes next. The manual disappears because you don\'t need it.',
+      copy: 'Cut lines onto plywood, exploded views onto the bench, dimensions onto the wall. WISP sees what you\'re doing and shows you what comes next. The manual disappears because you don\'t need it.',
       list: [
         'CNC, woodworking, and electronics overlays',
         'Cut lines that follow the material',
@@ -81,26 +158,16 @@
         'Compatible with Fusion 360, Onshape, plain PDFs',
       ],
     },
-    bedroom: {
-      eyebrow: '04 — Bedroom Mode',
-      title: 'Ceilings become skies.',
-      copy: 'Stars when the lights go down. A gentle sunrise on the wall when the alarm starts. Wind-down stories that fade as you fall asleep. Mornings that don\'t shout.',
+    house: {
+      eyebrow: '04 — House Mode',
+      title: 'A roving eye for the house.',
+      copy: 'Turn the lantern toward a problem and it draws it out in light. Point at a plant and it circles the leaf with spider mites. Point at a ceiling corner and it marks the damp before the mold. Point at the outlet running warm. The problems live in the room with you, not in an app.',
       list: [
-        'Star-field and weather projections on the ceiling',
-        'Sunrise alarm via projected light, not sound',
-        'Wind-down audio stories that auto-stop',
-        'Sleep-safe — dim warm light, no blue',
-      ],
-    },
-    studio: {
-      eyebrow: '05 — Studio Mode',
-      title: 'The mirror that thinks.',
-      copy: 'Yoga form notes projected onto the floor next to you. Posture cues on the wall. Sketch overlays for life drawing. LUMA watches the way a good teacher does, and intervenes only when it should.',
-      list: [
-        'Yoga, pilates, strength training form feedback',
-        'Posture and movement coaching, on-device',
-        'Sketch and life-drawing overlays',
-        'Private. Video never leaves the room.',
+        'Plant health — pests, rot, leaf disease',
+        'Damp and mold-prone corners, before they spread',
+        'Warm outlets and electrical hazards',
+        'Wear, rust, and small repairs you missed',
+        'On-device vision. Nothing leaves the room.',
       ],
     },
   };
@@ -137,14 +204,44 @@
   if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-  /* -------- Reserve form: serial number + persistence -------- */
+  /* -------- Reserve form: serial number + Formspree -------- */
+
+  /* === CONFIGURE HERE ============================================
+     Set this to your Formspree endpoint to receive real signups.
+     Setup (60 seconds, free):
+       1. Go to https://formspree.io/
+       2. Sign up using jack@wooblay.com
+       3. Click "+ New Form", name it "WISP Waitlist"
+       4. Copy the endpoint URL (looks like https://formspree.io/f/xyzabc)
+       5. Paste it below, replacing the empty string
+
+     While empty, signups still save to localStorage so nothing is lost.
+     ================================================================ */
+  const RESERVE_ENDPOINT = 'https://formspree.io/f/xredonep';
+
   const form = document.getElementById('reserve-form');
   const success = document.getElementById('reserve-success');
   const serialEl = document.getElementById('success-serial');
 
-  const SERIAL_KEY = 'luma_serial';
-  const COUNT_KEY = 'luma_count';
-  const STARTING_SERIAL = 347; // small ego hit — we're "real" already
+  const SERIAL_KEY = 'wisp_serial';
+  const COUNT_KEY = 'wisp_count';
+  const STARTING_SERIAL = 347;
+
+  const postSignup = async (payload) => {
+    if (!RESERVE_ENDPOINT || !RESERVE_ENDPOINT.startsWith('http')) {
+      return { ok: false, reason: 'endpoint not configured' };
+    }
+    try {
+      const res = await fetch(RESERVE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      return { ok: res.ok, status: res.status };
+    } catch (err) {
+      return { ok: false, reason: String(err) };
+    }
+  };
 
   if (form && success && serialEl) {
     /* Restore prior success state if user already reserved */
@@ -155,7 +252,7 @@
       form.hidden = true;
     }
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = form.email.value.trim();
       if (!/^\S+@\S+\.\S+$/.test(email)) {
@@ -165,35 +262,48 @@
         return;
       }
 
-      /* Increment local counter — TODO: wire to Resend / Apps Script for real persistence
-         Resend endpoint example:
-           fetch('/api/reserve', { method: 'POST', body: JSON.stringify({email}) })
-         Google Apps Script:
-           fetch(SCRIPT_URL, { method: 'POST', body: new URLSearchParams({email}) })
-      */
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn?.textContent;
+      if (submitBtn) { submitBtn.textContent = 'Reserving…'; submitBtn.disabled = true; }
+
+      /* Generate serial */
       let count = parseInt(localStorage.getItem(COUNT_KEY) || '0', 10);
       count += 1;
       localStorage.setItem(COUNT_KEY, String(count));
-
       const serial = '#' + String(STARTING_SERIAL + count).padStart(5, '0');
       localStorage.setItem(SERIAL_KEY, serial);
 
-      /* Also persist the email locally so we don't lose signups before backend exists */
-      const list = JSON.parse(localStorage.getItem('luma_waitlist') || '[]');
+      /* Local backup so we never lose a signup, even if remote fails */
+      const list = JSON.parse(localStorage.getItem('wisp_waitlist') || '[]');
       list.push({ email, serial, at: new Date().toISOString() });
-      localStorage.setItem('luma_waitlist', JSON.stringify(list));
+      localStorage.setItem('wisp_waitlist', JSON.stringify(list));
+
+      /* Post to remote endpoint (Formspree, etc.) */
+      const result = await postSignup({
+        email,
+        serial,
+        source: 'wisp-waitlist',
+        page: window.location.href,
+        submitted_at: new Date().toISOString(),
+      });
+
+      if (!result.ok) {
+        console.warn('[WISP] Remote signup failed:', result);
+      }
 
       serialEl.textContent = serial;
       form.hidden = true;
       success.hidden = false;
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      if (submitBtn && originalText) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
     });
   }
 
-  /* -------- Easter egg: type "luma" -------- */
+  /* -------- Easter egg: type "wisp" -------- */
   const eggEl = document.getElementById('easter-egg');
   let buffer = '';
-  const target = 'luma';
+  const target = 'wisp';
   document.addEventListener('keydown', (e) => {
     /* Don't interfere with typing in inputs */
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LUMA — The screen leaves the room.</title>
+  <title>WISP — The screen leaves the room.</title>
   <meta name="description" content="An AI projector that turns any surface into the screen. Replace the iPad. Replace the TV. Replace the cookbook stand." />
 
-  <meta property="og:title" content="LUMA — The screen leaves the room." />
+  <meta property="og:title" content="WISP — The screen leaves the room." />
   <meta property="og:description" content="One AI projector. Switch modes for kids, kitchen, workshop, and bedroom. No tablets. No TVs. No second device." />
   <meta property="og:image" content="img/og.jpg" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="LUMA — The screen leaves the room." />
+  <meta name="twitter:title" content="WISP — The screen leaves the room." />
   <meta name="twitter:description" content="An AI projector that turns any surface into the screen." />
   <meta name="twitter:image" content="img/og.jpg" />
 
@@ -24,25 +24,25 @@
 
   <!-- NAV -->
   <header class="nav">
-    <a href="#top" class="nav-brand">LUMA</a>
-    <nav class="nav-links">
-      <a href="#product">Product</a>
-      <a href="#modes">Modes</a>
-      <a href="#reserve">Reserve</a>
-    </nav>
+    <a href="#top" class="nav-brand">WISP</a>
   </header>
 
   <!-- HERO -->
   <section id="top" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="img/wisp-device.jpg" alt="" />
+      <div class="hero-bg-scrim"></div>
+    </div>
     <div class="hero-grain" aria-hidden="true"></div>
-    <div class="hero-beam" aria-hidden="true"></div>
-    <div class="hero-content">
-      <p class="eyebrow">Introducing LUMA</p>
-      <h1 class="hero-headline">The screen leaves the room.</h1>
-      <p class="hero-sub">An AI projector that turns any surface into the screen. Replace the iPad. Replace the TV. Replace the cookbook stand.</p>
-      <div class="hero-ctas">
-        <a href="#reserve" class="btn btn-primary">Join the waitlist</a>
-        <a href="#demo" class="btn btn-ghost" data-demo>Watch the demo</a>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="eyebrow">Introducing WISP</p>
+        <h1 class="hero-headline">Bring the agent home.</h1>
+        <p class="hero-sub">An AI projector that lives with you.</p>
+        <div class="hero-ctas">
+          <a href="#reserve" class="btn btn-primary">Join the waitlist</a>
+          <a href="#demo" class="btn btn-ghost" data-demo>Watch the demo</a>
+        </div>
       </div>
     </div>
     <div class="hero-foot">
@@ -51,51 +51,25 @@
     </div>
   </section>
 
-  <!-- PROBLEM -->
-  <section class="problem">
-    <div class="problem-inner reveal">
-      <p class="pullquote">Your kids have spent <em>1,400 hours</em> staring at a screen this year.</p>
-      <p class="problem-sub">Screens take people out of the room. Projection puts the room back in.</p>
-    </div>
-  </section>
-
-  <!-- PRODUCT -->
-  <section id="product" class="product">
-    <div class="product-inner">
-      <div class="product-shot reveal">
-        <img src="img/luma-device.jpg" alt="The LUMA device — a sand-toned cylindrical AI projector with a tilting dome lens and leather carry strap, sitting on a dark wooden side table" />
-      </div>
-      <div class="product-text reveal">
-        <p class="eyebrow">The device</p>
-        <h2 class="section-headline">One object. The whole house listens.</h2>
-        <div class="specs">
-          <div class="spec">
-            <h3 class="spec-name">Sees what you're doing</h3>
-            <p class="spec-copy">Camera and on-device vision. Knows the counter from the workbench from the wall.</p>
-          </div>
-          <div class="spec">
-            <h3 class="spec-name">Talks back</h3>
-            <p class="spec-copy">Far-field microphone and a speaker that sounds like furniture, not a gadget. Voice-first, always.</p>
-          </div>
-          <div class="spec">
-            <h3 class="spec-name">Projects anywhere</h3>
-            <p class="spec-copy">Laser projection. Sharp on floor, wall, ceiling, counter. Auto-keystone so you don't think about it.</p>
-          </div>
-        </div>
-        <p class="product-foot">Powered by an AI brain that runs locally. Your home stays in your home.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- MODES -->
   <section id="modes" class="modes">
     <div class="modes-head">
-      <p class="eyebrow">Modes</p>
-      <h2 class="section-headline">One device. Five rooms.</h2>
-      <p class="modes-sub">Swipe to switch. The room changes with the light.</p>
+      <div class="modes-head-text">
+        <p class="eyebrow">Modes</p>
+        <h2 class="section-headline">One lantern. Four modes.</h2>
+        <p class="modes-sub">Swipe to switch. The room changes with the light.</p>
+      </div>
+      <div class="modes-nav" aria-label="Modes navigation">
+        <button class="modes-arrow modes-prev" type="button" aria-label="Previous mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="modes-arrow modes-next" type="button" aria-label="Next mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
     </div>
 
-    <div class="modes-track" role="region" aria-label="LUMA modes">
+    <div class="modes-track" role="region" aria-label="WISP modes">
       <article class="mode has-image" data-mode="play">
         <div class="mode-image" data-mode-img="play">
           <img src="img/play.jpg" alt="Play Mode — children playing a projected game on the living-room floor" loading="lazy" />
@@ -108,18 +82,22 @@
         </div>
       </article>
 
-      <article class="mode" data-mode="kitchen">
-        <div class="mode-image" data-mode-img="kitchen" aria-hidden="true"></div>
+      <article class="mode has-image" data-mode="kitchen">
+        <div class="mode-image" data-mode-img="kitchen">
+          <img src="img/kitchen.jpg" alt="Kitchen Mode — WISP projecting cyan cutting guides and recipe steps onto an onion on a wooden cutting board" loading="lazy" />
+        </div>
         <div class="mode-body">
           <p class="mode-eyebrow">02 — Kitchen</p>
           <h3 class="mode-name">Kitchen Mode</h3>
-          <p class="mode-copy">Recipes projected onto your counter. Step by step. Hands stay busy.</p>
+          <p class="mode-copy">A cook in the room with you. Recipes read aloud. Substitutions on the fly. Timers in light.</p>
           <button class="mode-link" type="button" data-mode-link="kitchen">Learn more <span aria-hidden="true">→</span></button>
         </div>
       </article>
 
-      <article class="mode" data-mode="workshop">
-        <div class="mode-image" data-mode-img="workshop" aria-hidden="true"></div>
+      <article class="mode has-image" data-mode="workshop">
+        <div class="mode-image" data-mode-img="workshop">
+          <img src="img/workshop.jpg" alt="Workshop Mode — WISP projecting cut lines and schematics onto a workbench" loading="lazy" />
+        </div>
         <div class="mode-body">
           <p class="mode-eyebrow">03 — Workshop</p>
           <h3 class="mode-name">Workshop Mode</h3>
@@ -128,23 +106,15 @@
         </div>
       </article>
 
-      <article class="mode" data-mode="bedroom">
-        <div class="mode-image" data-mode-img="bedroom" aria-hidden="true"></div>
-        <div class="mode-body">
-          <p class="mode-eyebrow">04 — Bedroom</p>
-          <h3 class="mode-name">Bedroom Mode</h3>
-          <p class="mode-copy">Ceilings become skies. Wind-down stories. Sunrise alarms in light.</p>
-          <button class="mode-link" type="button" data-mode-link="bedroom">Learn more <span aria-hidden="true">→</span></button>
+      <article class="mode has-image" data-mode="house">
+        <div class="mode-image" data-mode-img="house">
+          <img src="img/house.jpg" alt="House Mode — WISP examining a houseplant leaf and highlighting spider mite damage in light" loading="lazy" />
         </div>
-      </article>
-
-      <article class="mode" data-mode="studio">
-        <div class="mode-image" data-mode-img="studio" aria-hidden="true"></div>
         <div class="mode-body">
-          <p class="mode-eyebrow">05 — Studio</p>
-          <h3 class="mode-name">Studio Mode</h3>
-          <p class="mode-copy">Yoga form, posture cues, sketch overlays. The mirror that thinks.</p>
-          <button class="mode-link" type="button" data-mode-link="studio">Learn more <span aria-hidden="true">→</span></button>
+          <p class="mode-eyebrow">04 — House</p>
+          <h3 class="mode-name">House Mode</h3>
+          <p class="mode-copy">A roving eye for the home. Plant mites, damp corners, the outlet running warm — drawn in light.</p>
+          <button class="mode-link" type="button" data-mode-link="house">Learn more <span aria-hidden="true">→</span></button>
         </div>
       </article>
     </div>
@@ -159,36 +129,22 @@
     <div class="reserve-inner">
       <div class="reserve-head reveal">
         <p class="eyebrow">Reserve</p>
-        <h2 class="section-headline">Two ways to bring it home.</h2>
+        <h2 class="section-headline">Bring it home.</h2>
       </div>
 
       <div class="skus">
         <article class="sku reveal">
           <div class="sku-head">
-            <h3 class="sku-name">LUMA</h3>
-            <span class="sku-price">$599</span>
-          </div>
-          <p class="sku-copy">Bring your own AI. Use ChatGPT, Claude, or Gemini. We project.</p>
-          <ul class="sku-list">
-            <li>Laser projection</li>
-            <li>Camera + microphone</li>
-            <li>Five modes</li>
-            <li>Cloud-AI compatible</li>
-          </ul>
-        </article>
-
-        <article class="sku sku-featured reveal">
-          <div class="sku-tag">Recommended</div>
-          <div class="sku-head">
-            <h3 class="sku-name">LUMA Brain</h3>
+            <h3 class="sku-name">WISP</h3>
             <span class="sku-price">$799</span>
           </div>
-          <p class="sku-copy">Includes the on-device AI brain. Runs locally. Lower latency. No subscriptions.</p>
+          <p class="sku-copy">An AI projector that thinks for itself. No cloud. No subscriptions. Nothing leaves the room.</p>
           <ul class="sku-list">
-            <li>Everything in LUMA</li>
-            <li>Local AI on board</li>
-            <li>No data leaves the house</li>
-            <li>Lifetime, no fees</li>
+            <li>Laser projection on any surface</li>
+            <li>Camera + far-field microphone</li>
+            <li>On-device AI — fast, private, yours</li>
+            <li>A mode for every room you live in</li>
+            <li>One-time price. No fees, ever.</li>
           </ul>
         </article>
       </div>
@@ -207,64 +163,26 @@
     </div>
   </section>
 
-  <!-- APP -->
-  <section class="app">
-    <div class="app-inner">
-      <div class="app-mockup reveal" aria-hidden="true">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-status">9:41</div>
-            <div class="phone-title">LUMA</div>
-            <div class="phone-card phone-card-active">
-              <span class="phone-card-dot"></span>
-              <div class="phone-card-text">
-                <strong>Kitchen Mode</strong>
-                <span>Active — Living room</span>
-              </div>
-            </div>
-            <div class="phone-card"><div class="phone-card-text"><strong>Kids Mode</strong><span>Playroom</span></div></div>
-            <div class="phone-card"><div class="phone-card-text"><strong>Bedroom Mode</strong><span>Upstairs</span></div></div>
-            <div class="phone-card"><div class="phone-card-text"><strong>Workshop Mode</strong><span>Garage</span></div></div>
-            <div class="phone-card"><div class="phone-card-text"><strong>Studio Mode</strong><span>Studio</span></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="app-copy reveal">
-        <p class="eyebrow">The app</p>
-        <h2 class="section-headline">Control every mode from one app.</h2>
-        <ul class="app-list">
-          <li>Switch modes from anywhere.</li>
-          <li>Update content for the room.</li>
-          <li>Share access with family.</li>
-          <li>Build your own modes.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <!-- MANIFESTO -->
   <section class="manifesto">
     <div class="manifesto-inner reveal">
       <p class="manifesto-body">
-        We don't think the future of the home is more screens. We think it's no screens at all. Information should live in the room with you, not in your hand.
+        Screens taught computers to talk to us. Light is how they'll live with us.
       </p>
-      <p class="manifesto-sig">— [Founder name], founder</p>
+      <p class="manifesto-sig">— Jack Minett, founder</p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="foot">
     <div class="foot-inner">
-      <div class="foot-brand">LUMA</div>
+      <div class="foot-brand">WISP</div>
       <nav class="foot-nav">
-        <a href="mailto:hello@luma.com">Email</a>
-        <a href="#" rel="noopener">Instagram</a>
-        <a href="#" rel="noopener">X</a>
+        <a href="mailto:jack@wooblay.com">Email</a>
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
       </nav>
-      <p class="foot-place">Made with care in <span class="foot-city">[your city]</span>.</p>
+      <p class="foot-place">Made with care in <span class="foot-city">Sydney</span>.</p>
     </div>
   </footer>
 
@@ -280,7 +198,7 @@
   </div>
 
   <!-- EASTER EGG FLASH -->
-  <div class="easter-egg" id="easter-egg" aria-hidden="true">LUMA</div>
+  <div class="easter-egg" id="easter-egg" aria-hidden="true">WISP</div>
 
   <script src="script.js"></script>
 </body>
