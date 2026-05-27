@@ -1,181 +1,239 @@
-/* HEARTH · interactivity */
+/* ==========================================================
+   LUMA — interactions
+   ========================================================== */
 
-// Particle field
-(function () {
-  const canvas = document.getElementById('particles');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let w, h, dpr;
-  let particles = [];
-  const COUNT = window.innerWidth < 760 ? 40 : 80;
+(() => {
+  'use strict';
 
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = canvas.width = window.innerWidth * dpr;
-    h = canvas.height = window.innerHeight * dpr;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-  }
-  function init() {
-    particles = [];
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3 * dpr,
-        vy: (Math.random() - 0.5) * 0.3 * dpr,
-        r: (Math.random() * 1.5 + 0.5) * dpr,
-        c: Math.random() > 0.5 ? '255,107,53' : '167,139,250',
-      });
-    }
-  }
-  function tick() {
-    ctx.clearRect(0, 0, w, h);
-    for (const p of particles) {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(${p.c}, 0.6)`;
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < 120 * dpr) {
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(255,107,53, ${0.15 * (1 - d / (120 * dpr))})`;
-          ctx.lineWidth = 0.5 * dpr;
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
+  /* -------- Reveal on scroll -------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
         }
-      }
-    }
-    requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in'));
   }
-  window.addEventListener('resize', () => { resize(); init(); });
-  resize(); init(); tick();
-})();
 
-// Counter animation
-(function () {
-  const els = document.querySelectorAll('[data-count]');
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      const el = e.target;
-      const target = parseInt(el.dataset.count, 10);
-      const duration = 1600;
-      const start = performance.now();
-      function step(now) {
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = Math.floor(eased * target).toLocaleString();
-        if (t < 1) requestAnimationFrame(step);
-        else el.textContent = target.toLocaleString();
+  /* -------- Modes horizontal scroll progress -------- */
+  const track = document.querySelector('.modes-track');
+  const progress = document.querySelector('.modes-progress-fill');
+  if (track && progress) {
+    const updateProgress = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const pct = max <= 0 ? 1 : Math.min(1, Math.max(0, track.scrollLeft / max));
+      // Always show some fill so it doesn't look broken at start
+      const visualPct = 0.18 + pct * 0.82;
+      progress.style.width = (visualPct * 100).toFixed(1) + '%';
+    };
+    track.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+
+    /* Allow horizontal scroll via mouse wheel on desktop */
+    track.addEventListener('wheel', (e) => {
+      if (window.innerWidth <= 700) return; // mobile is vertical
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        track.scrollLeft += e.deltaY;
       }
-      requestAnimationFrame(step);
-      io.unobserve(el);
-    }
-  }, { threshold: 0.3 });
-  els.forEach((el) => io.observe(el));
-})();
+    }, { passive: false });
+  }
 
-// Scroll reveal
-(function () {
-  document.documentElement.classList.add('js-on');
-  const sels = ['.section-head','.module','.step','.specs-copy','.specs-card','.tier','.quote','.reserve-copy','.reserve-form','.faq-list details','.footer-cta-inner > *'];
-  const els = document.querySelectorAll(sels.join(','));
-  els.forEach((el, i) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = (i % 6) * 60 + 'ms';
+  /* -------- Mode modal -------- */
+  const modeContent = {
+    kids: {
+      eyebrow: '01 — Kids Mode',
+      title: 'Stories that respond.',
+      copy: 'Books read themselves and listen back. Puzzles project onto the floor and react to where a child stands. No tablets to hand over, no feeds to scroll, no ads to swipe past. When LUMA hears bedtime, it dims.',
+      list: [
+        'Adaptive stories that respond to a child\'s voice',
+        'Floor games for two or more',
+        'No ads. No social. No data sold.',
+        'Parents control modes from the app',
+      ],
+    },
+    kitchen: {
+      eyebrow: '02 — Kitchen Mode',
+      title: 'The recipe is on the counter.',
+      copy: 'Project a recipe onto the worktop and your hands stay where they are. Ask a question with batter on them and LUMA hears. Timers live on the backsplash. The cookbook stand retires.',
+      list: [
+        'Recipes projected step-by-step onto the counter',
+        'Voice control with wet, sticky, or busy hands',
+        'Timers, conversions, substitutions in light',
+        'Works with your existing recipe library',
+      ],
+    },
+    workshop: {
+      eyebrow: '03 — Workshop Mode',
+      title: 'Schematics on the workbench.',
+      copy: 'Cut lines onto plywood, exploded views onto the bench, dimensions onto the wall. LUMA sees what you\'re doing and shows you what comes next. The manual disappears because you don\'t need it.',
+      list: [
+        'CNC, woodworking, and electronics overlays',
+        'Cut lines that follow the material',
+        'IKEA assembly without flipping pages',
+        'Compatible with Fusion 360, Onshape, plain PDFs',
+      ],
+    },
+    bedroom: {
+      eyebrow: '04 — Bedroom Mode',
+      title: 'Ceilings become skies.',
+      copy: 'Stars when the lights go down. A gentle sunrise on the wall when the alarm starts. Wind-down stories that fade as you fall asleep. Mornings that don\'t shout.',
+      list: [
+        'Star-field and weather projections on the ceiling',
+        'Sunrise alarm via projected light, not sound',
+        'Wind-down audio stories that auto-stop',
+        'Sleep-safe — dim warm light, no blue',
+      ],
+    },
+    studio: {
+      eyebrow: '05 — Studio Mode',
+      title: 'The mirror that thinks.',
+      copy: 'Yoga form notes projected onto the floor next to you. Posture cues on the wall. Sketch overlays for life drawing. LUMA watches the way a good teacher does, and intervenes only when it should.',
+      list: [
+        'Yoga, pilates, strength training form feedback',
+        'Posture and movement coaching, on-device',
+        'Sketch and life-drawing overlays',
+        'Private. Video never leaves the room.',
+      ],
+    },
+  };
+
+  const modal = document.getElementById('mode-modal');
+  const modalClose = document.getElementById('modal-close');
+  const modalEyebrow = document.getElementById('modal-eyebrow');
+  const modalTitle = document.getElementById('modal-title');
+  const modalCopy = document.getElementById('modal-copy');
+  const modalList = document.getElementById('modal-list');
+
+  const openModal = (mode) => {
+    const data = modeContent[mode];
+    if (!data || !modal) return;
+    modalEyebrow.textContent = data.eyebrow;
+    modalTitle.textContent = data.title;
+    modalCopy.textContent = data.copy;
+    modalList.innerHTML = data.list.map((s) => `<li>${s}</li>`).join('');
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeModal = () => {
+    if (!modal) return;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  document.querySelectorAll('[data-mode-link]').forEach((btn) => {
+    btn.addEventListener('click', () => openModal(btn.dataset.modeLink));
   });
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }
-  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-  els.forEach((el) => io.observe(el));
-})();
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-// Module hover glow
-(function () {
-  document.querySelectorAll('.module').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  /* -------- Reserve form: serial number + persistence -------- */
+  const form = document.getElementById('reserve-form');
+  const success = document.getElementById('reserve-success');
+  const serialEl = document.getElementById('success-serial');
+
+  const SERIAL_KEY = 'luma_serial';
+  const COUNT_KEY = 'luma_count';
+  const STARTING_SERIAL = 347; // small ego hit — we're "real" already
+
+  if (form && success && serialEl) {
+    /* Restore prior success state if user already reserved */
+    const prior = localStorage.getItem(SERIAL_KEY);
+    if (prior) {
+      serialEl.textContent = prior;
+      success.hidden = false;
+      form.hidden = true;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        form.email.focus();
+        form.email.style.borderColor = '#ff6b53';
+        setTimeout(() => { form.email.style.borderColor = ''; }, 1400);
+        return;
+      }
+
+      /* Increment local counter — TODO: wire to Resend / Apps Script for real persistence
+         Resend endpoint example:
+           fetch('/api/reserve', { method: 'POST', body: JSON.stringify({email}) })
+         Google Apps Script:
+           fetch(SCRIPT_URL, { method: 'POST', body: new URLSearchParams({email}) })
+      */
+      let count = parseInt(localStorage.getItem(COUNT_KEY) || '0', 10);
+      count += 1;
+      localStorage.setItem(COUNT_KEY, String(count));
+
+      const serial = '#' + String(STARTING_SERIAL + count).padStart(5, '0');
+      localStorage.setItem(SERIAL_KEY, serial);
+
+      /* Also persist the email locally so we don't lose signups before backend exists */
+      const list = JSON.parse(localStorage.getItem('luma_waitlist') || '[]');
+      list.push({ email, serial, at: new Date().toISOString() });
+      localStorage.setItem('luma_waitlist', JSON.stringify(list));
+
+      serialEl.textContent = serial;
+      form.hidden = true;
+      success.hidden = false;
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  /* -------- Easter egg: type "luma" -------- */
+  const eggEl = document.getElementById('easter-egg');
+  let buffer = '';
+  const target = 'luma';
+  document.addEventListener('keydown', (e) => {
+    /* Don't interfere with typing in inputs */
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    if (e.key.length !== 1) return;
+    buffer = (buffer + e.key.toLowerCase()).slice(-target.length);
+    if (buffer === target && eggEl) {
+      eggEl.classList.remove('fire');
+      // force reflow so animation re-fires
+      void eggEl.offsetWidth;
+      eggEl.classList.add('fire');
+      buffer = '';
+    }
+  });
+
+  /* -------- Watch demo placeholder -------- */
+  document.querySelectorAll('[data-demo]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      /* TODO: wire to a real demo video when ready */
+      btn.textContent = 'Demo coming soon';
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+      setTimeout(() => {
+        btn.textContent = 'Watch the demo';
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+      }, 1800);
     });
   });
-})();
 
-// Smooth scroll
-(function () {
+  /* -------- Smooth scroll for anchor links (handles fixed nav offset) -------- */
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
-      if (id.length < 2) return;
-      const t = document.querySelector(id);
-      if (!t) return;
+      if (!id || id === '#') return;
+      const el = document.querySelector(id);
+      if (!el) return;
       e.preventDefault();
-      t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const top = el.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
-})();
-
-// Reserve form
-(function () {
-  const form = document.getElementById('reserve-form');
-  const toast = document.getElementById('toast');
-  if (!form) return;
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toast._t);
-    toast._t = setTimeout(() => toast.classList.remove('show'), 3600);
-  }
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const email = (data.get('email') || '').toString().trim();
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-      showToast('Enter a valid email to reserve.');
-      form.querySelector('input[type=email]').focus();
-      return;
-    }
-    try {
-      const list = JSON.parse(localStorage.getItem('hearth_waitlist') || '[]');
-      list.push({ email, city: data.get('city') || '', tier: data.get('tier') || '', at: new Date().toISOString() });
-      localStorage.setItem('hearth_waitlist', JSON.stringify(list));
-    } catch (_) {}
-    form.innerHTML = `
-      <div style="text-align:center; padding: 24px 8px;">
-        <div style="width:64px; height:64px; margin:0 auto 18px; border-radius:50%; background: linear-gradient(135deg, #ff6b35, #f04e98); display:grid; place-items:center; box-shadow: 0 20px 40px -10px rgba(255,107,53,0.5);">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-        </div>
-        <h3 style="font-family:'Space Grotesk', sans-serif; font-size:24px; margin:0 0 8px;">You're #12,848.</h3>
-        <p style="color:var(--text-2); margin:0 0 24px;">We've held your spot. Check ${email} for your confirmation and Founders Slack invite.</p>
-        <div style="display:inline-flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-          <span style="padding:8px 14px; border-radius:999px; background:rgba(255,107,53,0.1); border:1px solid rgba(255,107,53,0.25); color:var(--accent-2); font-size:13px;">$99 deposit &middot; refundable</span>
-          <span style="padding:8px 14px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--line); color:var(--text-2); font-size:13px;">Ships Q4 2026</span>
-        </div>
-      </div>
-    `;
-    showToast(`You're in. Watch ${email}.`);
-  });
-})();
-
-// Nav shadow on scroll
-(function () {
-  const nav = document.querySelector('.nav');
-  if (!nav) return;
-  function onScroll() {
-    nav.style.boxShadow = window.scrollY > 8 ? '0 20px 40px -20px rgba(0,0,0,0.6)' : 'none';
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 })();

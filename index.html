@@ -1,633 +1,285 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#0a0a0f" />
-<title>HEARTH — Your home, finally awake.</title>
-<meta name="description" content="HEARTH is the first fully-local AI network for the home. One Jetson-powered hub. Ten room-specific modules. Zero cloud." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FF6B35'/></svg>" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMA — The screen leaves the room.</title>
+  <meta name="description" content="An AI projector that turns any surface into the screen. Replace the iPad. Replace the TV. Replace the cookbook stand." />
+
+  <meta property="og:title" content="LUMA — The screen leaves the room." />
+  <meta property="og:description" content="One AI projector. Switch modes for kids, kitchen, workshop, and bedroom. No tablets. No TVs. No second device." />
+  <meta property="og:image" content="img/og.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LUMA — The screen leaves the room." />
+  <meta name="twitter:description" content="An AI projector that turns any surface into the screen." />
+  <meta name="twitter:image" content="img/og.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="bg-mesh"></div>
-<canvas id="particles"></canvas>
-
-<header class="nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo">
-      <span class="logo-mark"></span>
-      <span class="logo-text">HEARTH</span>
-    </a>
+  <!-- NAV -->
+  <header class="nav">
+    <a href="#top" class="nav-brand">LUMA</a>
     <nav class="nav-links">
-      <a href="#modules">Modules</a>
-      <a href="#how">How it works</a>
-      <a href="#specs">Tech</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#product">Product</a>
+      <a href="#modes">Modes</a>
+      <a href="#reserve">Reserve</a>
     </nav>
-    <a href="#reserve" class="btn btn-primary nav-cta">Reserve · $99</a>
-  </div>
-</header>
+  </header>
 
-<main id="top">
-
-<section class="hero">
-  <div class="hero-bg">
-    <div class="hero-glow hero-glow-1"></div>
-    <div class="hero-glow hero-glow-2"></div>
-    <div class="hero-glow hero-glow-3"></div>
-  </div>
-  <div class="container hero-inner">
-    <div class="hero-copy">
-      <div class="eyebrow">
-        <span class="dot"></span>
-        Reservations open · Ships Q4 2026
-      </div>
-      <h1 class="display">
-        Your home,<br />
-        <span class="gradient-text">finally awake.</span>
-      </h1>
-      <p class="lead">
-        HEARTH is the first fully-local AI network for the home.
-        One Jetson-powered hub. Five flagship modules. Everything runs on-device — zero bytes to the cloud.
-      </p>
-      <div class="hero-actions">
-        <a href="#reserve" class="btn btn-primary btn-lg">
-          Reserve for $99
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#how" class="btn btn-ghost btn-lg">
-          See how it works
-        </a>
-      </div>
-      <div class="hero-trust">
-        <div class="avatars">
-          <span class="avatar a1"></span>
-          <span class="avatar a2"></span>
-          <span class="avatar a3"></span>
-          <span class="avatar a4"></span>
-          <span class="avatar a5"></span>
-        </div>
-        <span><strong data-count="12847">0</strong> households reserved</span>
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-beam" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="eyebrow">Introducing LUMA</p>
+      <h1 class="hero-headline">The screen leaves the room.</h1>
+      <p class="hero-sub">An AI projector that turns any surface into the screen. Replace the iPad. Replace the TV. Replace the cookbook stand.</p>
+      <div class="hero-ctas">
+        <a href="#reserve" class="btn btn-primary">Join the waitlist</a>
+        <a href="#demo" class="btn btn-ghost" data-demo>Watch the demo</a>
       </div>
     </div>
+    <div class="hero-foot">
+      <span>Scroll</span>
+      <span class="hero-rule" aria-hidden="true"></span>
+    </div>
+  </section>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="device-scene">
-        <div class="orbit orbit-1">
-          <span class="orb" style="--c:#FF6B35">PANTRY</span>
-        </div>
-        <div class="orbit orbit-2">
-          <span class="orb" style="--c:#00D9FF">WATCHER</span>
-        </div>
-        <div class="orbit orbit-3">
-          <span class="orb" style="--c:#FFD166">SOUS-CHEF</span>
-        </div>
-        <div class="orbit orbit-4">
-          <span class="orb" style="--c:#A78BFA">MEMORY</span>
-        </div>
+  <!-- PROBLEM -->
+  <section class="problem">
+    <div class="problem-inner reveal">
+      <p class="pullquote">Your kids have spent <em>1,400 hours</em> staring at a screen this year.</p>
+      <p class="problem-sub">Screens take people out of the room. Projection puts the room back in.</p>
+    </div>
+  </section>
 
-        <div class="device">
-          <div class="device-shadow"></div>
-          <div class="device-body">
-            <div class="device-ring"></div>
-            <div class="device-ring device-ring-2"></div>
-            <div class="device-screen">
-              <div class="device-pulse"></div>
-              <div class="device-label">HEARTH</div>
-              <div class="device-sub">core · v1.0</div>
+  <!-- PRODUCT -->
+  <section id="product" class="product">
+    <div class="product-inner">
+      <div class="product-shot reveal">
+        <img src="img/luma-device.jpg" alt="The LUMA device — a sand-toned cylindrical AI projector with a tilting dome lens and leather carry strap, sitting on a dark wooden side table" />
+      </div>
+      <div class="product-text reveal">
+        <p class="eyebrow">The device</p>
+        <h2 class="section-headline">One object. The whole house listens.</h2>
+        <div class="specs">
+          <div class="spec">
+            <h3 class="spec-name">Sees what you're doing</h3>
+            <p class="spec-copy">Camera and on-device vision. Knows the counter from the workbench from the wall.</p>
+          </div>
+          <div class="spec">
+            <h3 class="spec-name">Talks back</h3>
+            <p class="spec-copy">Far-field microphone and a speaker that sounds like furniture, not a gadget. Voice-first, always.</p>
+          </div>
+          <div class="spec">
+            <h3 class="spec-name">Projects anywhere</h3>
+            <p class="spec-copy">Laser projection. Sharp on floor, wall, ceiling, counter. Auto-keystone so you don't think about it.</p>
+          </div>
+        </div>
+        <p class="product-foot">Powered by an AI brain that runs locally. Your home stays in your home.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODES -->
+  <section id="modes" class="modes">
+    <div class="modes-head">
+      <p class="eyebrow">Modes</p>
+      <h2 class="section-headline">One device. Five rooms.</h2>
+      <p class="modes-sub">Swipe to switch. The room changes with the light.</p>
+    </div>
+
+    <div class="modes-track" role="region" aria-label="LUMA modes">
+      <article class="mode" data-mode="kids">
+        <div class="mode-image" data-mode-img="kids" aria-hidden="true"></div>
+        <div class="mode-body">
+          <p class="mode-eyebrow">01 — Kids</p>
+          <h3 class="mode-name">Kids Mode</h3>
+          <p class="mode-copy">Stories that respond. Games that move with them. Zero ads, zero feed.</p>
+          <button class="mode-link" type="button" data-mode-link="kids">Learn more <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+
+      <article class="mode" data-mode="kitchen">
+        <div class="mode-image" data-mode-img="kitchen" aria-hidden="true"></div>
+        <div class="mode-body">
+          <p class="mode-eyebrow">02 — Kitchen</p>
+          <h3 class="mode-name">Kitchen Mode</h3>
+          <p class="mode-copy">Recipes projected onto your counter. Step by step. Hands stay busy.</p>
+          <button class="mode-link" type="button" data-mode-link="kitchen">Learn more <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+
+      <article class="mode" data-mode="workshop">
+        <div class="mode-image" data-mode-img="workshop" aria-hidden="true"></div>
+        <div class="mode-body">
+          <p class="mode-eyebrow">03 — Workshop</p>
+          <h3 class="mode-name">Workshop Mode</h3>
+          <p class="mode-copy">Schematics on the workbench. Cut lines on the wood. The manual disappears.</p>
+          <button class="mode-link" type="button" data-mode-link="workshop">Learn more <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+
+      <article class="mode" data-mode="bedroom">
+        <div class="mode-image" data-mode-img="bedroom" aria-hidden="true"></div>
+        <div class="mode-body">
+          <p class="mode-eyebrow">04 — Bedroom</p>
+          <h3 class="mode-name">Bedroom Mode</h3>
+          <p class="mode-copy">Ceilings become skies. Wind-down stories. Sunrise alarms in light.</p>
+          <button class="mode-link" type="button" data-mode-link="bedroom">Learn more <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+
+      <article class="mode" data-mode="studio">
+        <div class="mode-image" data-mode-img="studio" aria-hidden="true"></div>
+        <div class="mode-body">
+          <p class="mode-eyebrow">05 — Studio</p>
+          <h3 class="mode-name">Studio Mode</h3>
+          <p class="mode-copy">Yoga form, posture cues, sketch overlays. The mirror that thinks.</p>
+          <button class="mode-link" type="button" data-mode-link="studio">Learn more <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="modes-progress" aria-hidden="true">
+      <div class="modes-progress-fill"></div>
+    </div>
+  </section>
+
+  <!-- WAITLIST + SKUS -->
+  <section id="reserve" class="reserve">
+    <div class="reserve-inner">
+      <div class="reserve-head reveal">
+        <p class="eyebrow">Reserve</p>
+        <h2 class="section-headline">Two ways to bring it home.</h2>
+      </div>
+
+      <div class="skus">
+        <article class="sku reveal">
+          <div class="sku-head">
+            <h3 class="sku-name">LUMA</h3>
+            <span class="sku-price">$599</span>
+          </div>
+          <p class="sku-copy">Bring your own AI. Use ChatGPT, Claude, or Gemini. We project.</p>
+          <ul class="sku-list">
+            <li>Laser projection</li>
+            <li>Camera + microphone</li>
+            <li>Five modes</li>
+            <li>Cloud-AI compatible</li>
+          </ul>
+        </article>
+
+        <article class="sku sku-featured reveal">
+          <div class="sku-tag">Recommended</div>
+          <div class="sku-head">
+            <h3 class="sku-name">LUMA Brain</h3>
+            <span class="sku-price">$799</span>
+          </div>
+          <p class="sku-copy">Includes the on-device AI brain. Runs locally. Lower latency. No subscriptions.</p>
+          <ul class="sku-list">
+            <li>Everything in LUMA</li>
+            <li>Local AI on board</li>
+            <li>No data leaves the house</li>
+            <li>Lifetime, no fees</li>
+          </ul>
+        </article>
+      </div>
+
+      <form class="reserve-form reveal" id="reserve-form" novalidate>
+        <label for="email" class="visually-hidden">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@home.com" autocomplete="email" required />
+        <button type="submit">Reserve your spot</button>
+      </form>
+      <p class="reserve-fine">$1 holds your place. Refundable.</p>
+
+      <div class="reserve-success" id="reserve-success" aria-live="polite" hidden>
+        <p class="success-line">You're <span class="success-serial" id="success-serial">#00347</span>.</p>
+        <p class="success-sub">We'll be in touch. Tell a friend — they'll get the next number.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="app">
+    <div class="app-inner">
+      <div class="app-mockup reveal" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status">9:41</div>
+            <div class="phone-title">LUMA</div>
+            <div class="phone-card phone-card-active">
+              <span class="phone-card-dot"></span>
+              <div class="phone-card-text">
+                <strong>Kitchen Mode</strong>
+                <span>Active — Living room</span>
+              </div>
             </div>
+            <div class="phone-card"><div class="phone-card-text"><strong>Kids Mode</strong><span>Playroom</span></div></div>
+            <div class="phone-card"><div class="phone-card-text"><strong>Bedroom Mode</strong><span>Upstairs</span></div></div>
+            <div class="phone-card"><div class="phone-card-text"><strong>Workshop Mode</strong><span>Garage</span></div></div>
+            <div class="phone-card"><div class="phone-card-text"><strong>Studio Mode</strong><span>Studio</span></div></div>
           </div>
-          <div class="device-base"></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="press">
-  <div class="container">
-    <div class="press-row">
-      <span class="press-label">As seen in</span>
-      <span class="press-logo">TECHCRUNCH</span>
-      <span class="press-logo">THE VERGE</span>
-      <span class="press-logo">WIRED</span>
-      <span class="press-logo">FAST COMPANY</span>
-      <span class="press-logo">THE INFORMATION</span>
-      <span class="press-logo">HACKER NEWS · #1</span>
-    </div>
-  </div>
-</section>
-
-<section class="stats">
-  <div class="container">
-    <div class="stat">
-      <div class="stat-num"><span data-count="12847">0</span></div>
-      <div class="stat-label">Households reserved</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">$<span data-count="14">0</span>M</div>
-      <div class="stat-label">Seed · Sequoia &amp; a16z</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num"><span data-count="100">0</span> TOPS</div>
-      <div class="stat-label">Local AI compute</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">0 <span class="stat-sm">bytes</span></div>
-      <div class="stat-label">Sent to the cloud</div>
-    </div>
-  </div>
-</section>
-
-<section id="modules" class="modules">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Flagships &amp; modules</span>
-      <h2 class="section-title">Every room, finally intelligent.</h2>
-      <p class="section-lead">
-        HEARTH Core is the hub. Five <strong style="color:var(--accent-2)">flagship modules</strong> tackle the hardest, most ambitious problems in your home — groceries, care, cooking, health, security. The rest are smaller modules that round out the network. All run locally. All talk to each other. None talk to the cloud.
-      </p>
-    </div>
-
-    <div class="modules-grid">
-
-      <article class="module module-core" data-image="core.jpg">
-        <div class="module-tag">REQUIRED</div>
-        <div class="module-icon icon-core">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="20"/><circle cx="32" cy="32" r="10"/><circle cx="32" cy="32" r="3" fill="currentColor"/></svg>
-        </div>
-        <h3 class="module-name">HEARTH Core</h3>
-        <p class="module-tag-line">The brain.</p>
-        <p class="module-desc">Jetson Orin NX 16GB. 100 TOPS. Runs 50+ on-device models — vision, speech, reasoning — all local. Every module talks to Core over the local mesh.</p>
-        <div class="module-foot">
-          <span class="module-price">$899</span>
-          <span class="module-meta">One per home</span>
-        </div>
-      </article>
-
-      <article class="module module-flagship has-image">
-        <div class="module-image">
-          <img src="img/pantry-sentinel.jpg" alt="Pantry Sentinel module — kitchen ingredients on a wooden table with floating UI overlay cards showing expiry dates and quantities for oat milk, herbs, eggs, avocados, and sourdough bread" loading="lazy" />
-        </div>
-        <div class="module-tag">FLAGSHIP</div>
-        <h3 class="module-name">Pantry Sentinel</h3>
-        <p class="module-tag-line">Your groceries, accounted for.</p>
-        <p class="module-desc">A ceiling-mounted camera and Jetson watch every item from grocery bag to shelf to fridge to trash. Knows what you have, what's expiring, what you actually eat. Auto-generates the shopping list. After six months, it knows your household better than you do.</p>
-        <div class="module-foot">
-          <span class="module-price">$699 <span class="sub">+ $15/mo</span></span>
-          <span class="module-meta">Kitchen</span>
-        </div>
-      </article>
-
-      <article class="module module-flagship has-image">
-        <div class="module-image">
-          <img src="img/watcher.jpg" alt="Watcher module — an elderly woman reading by a window, the small HEARTH device beside her" loading="lazy" />
-        </div>
-        <div class="module-tag">FLAGSHIP</div>
-        <h3 class="module-name">Watcher</h3>
-        <p class="module-tag-line">For the room you can't be in.</p>
-        <p class="module-desc">Edge AI that watches a kid, an elderly parent, or someone post-surgery. Alerts only on real anomalies — a fall, choking posture, leaving the room, prolonged stillness. The pitch is the whole product: footage never leaves the house.</p>
-        <div class="module-foot">
-          <span class="module-price">$499 <span class="sub">+ $20/mo</span></span>
-          <span class="module-meta">Nursery / Care room</span>
-        </div>
-      </article>
-
-      <article class="module module-flagship has-image">
-        <div class="module-image">
-          <img src="img/sous-chef.jpg" alt="Sous-Chef module — ceiling projector drawing cyan cutting guides onto an onion on a wooden cutting board" loading="lazy" />
-        </div>
-        <div class="module-tag">FLAGSHIP</div>
-        <h3 class="module-name">Sous-Chef</h3>
-        <p class="module-tag-line">Recipes are text. Kitchens are spatial.</p>
-        <p class="module-desc">A ceiling projector + camera over the counter. Projects cutting guides onto the board, highlights the next ingredient, draws an arrow to "the salt is over there." Timer overlays on the pan. The first product that fuses instruction with the surface you're actually working on.</p>
-        <div class="module-foot">
-          <span class="module-price">$1,299</span>
-          <span class="module-meta">Kitchen · Premium</span>
-        </div>
-      </article>
-
-      <article class="module module-flagship" data-image="dietician.jpg">
-        <div class="module-tag">FLAGSHIP</div>
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="22"/><path d="M32 18a14 14 0 0 1 14 14"/><circle cx="32" cy="32" r="4" fill="currentColor"/></svg>
-        </div>
-        <h3 class="module-name">Dietician</h3>
-        <p class="module-tag-line">The food log you don't have to log.</p>
-        <p class="module-desc">A plate-scanning camera at the dining table. Estimates calories, macros, and who at the table ate what. Pairs with continuous glucose monitor data. Apple and Whoop can't see your plate — Dietician can.</p>
-        <div class="module-foot">
-          <span class="module-price">$449 <span class="sub">+ $12/mo</span></span>
-          <span class="module-meta">Dining</span>
-        </div>
-      </article>
-
-      <article class="module" data-image="threshold.jpg">
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 56V20l18-10 18 10v36"/><rect x="26" y="36" width="12" height="20"/><circle cx="32" cy="46" r="1.5" fill="currentColor"/></svg>
-        </div>
-        <h3 class="module-name">Threshold</h3>
-        <p class="module-tag-line">The doorway that takes notes.</p>
-        <p class="module-desc">An entryway camera that sees every package arriving and every item leaving. Auto-builds your household inventory, tags warranty dates, recognises faces of family and trusted visitors. When you get burgled or have a fire, you have a complete itemised claim in 30 seconds.</p>
-        <div class="module-foot">
-          <span class="module-price">$399</span>
-          <span class="module-meta">Entry</span>
-        </div>
-      </article>
-
-      <article class="module" data-image="memory.jpg">
-        <div class="module-tag tag-cult">CULT</div>
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 20h24a8 8 0 0 1 8 8v8a8 8 0 0 1-8 8h-8l-10 8v-8h-6a8 8 0 0 1-8-8v-8a8 8 0 0 1 8-8z"/><path d="M22 32h16"/></svg>
-        </div>
-        <h3 class="module-name">Memory</h3>
-        <p class="module-tag-line">Settles the "I never said that."</p>
-        <p class="module-desc">Invoke-only conversation recall. Doesn't record until you say the word, and announces consent to the room when it does. Plays back what was actually said versus what each person remembers. The argument referee, brought to you by people who actually live with humans.</p>
-        <div class="module-foot">
-          <span class="module-price">$229</span>
-          <span class="module-meta">Living room</span>
-        </div>
-      </article>
-
-      <article class="module" data-image="slumber.jpg">
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><path d="M48 32a16 16 0 1 1-19-15.7A12 12 0 0 0 48 32z"/><circle cx="44" cy="20" r="1.5" fill="currentColor"/><circle cx="50" cy="14" r="1" fill="currentColor"/></svg>
-        </div>
-        <h3 class="module-name">Slumber</h3>
-        <p class="module-tag-line">Your bedside coach.</p>
-        <p class="module-desc">Contactless sleep tracking via mmWave — no wristband, no ring, no ritual. Adaptive soundscapes generated on-device. Sunrise wake light tuned to your sleep stage, not your alarm.</p>
-        <div class="module-foot">
-          <span class="module-price">$199</span>
-          <span class="module-meta">Bedroom</span>
-        </div>
-      </article>
-
-      <article class="module" data-image="aria.jpg">
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="20"/><path d="M20 28c4-4 8-4 12 0s8 4 12 0M20 38c4-4 8-4 12 0s8 4 12 0"/></svg>
-        </div>
-        <h3 class="module-name">Aria</h3>
-        <p class="module-tag-line">Air, everywhere.</p>
-        <p class="module-desc">Whole-home air quality — VOC, CO₂, PM2.5, allergens, humidity. Doubles as a voice endpoint, so HEARTH hears you from any room without a screen on a wall.</p>
-        <div class="module-foot">
-          <span class="module-price">$159</span>
-          <span class="module-meta">Any room</span>
-        </div>
-      </article>
-
-      <article class="module module-coming">
-        <div class="module-tag tag-soon">2027</div>
-        <div class="module-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="22"/><path d="M32 14v36M14 32h36"/></svg>
-        </div>
-        <h3 class="module-name">More incoming</h3>
-        <p class="module-tag-line">Garage. Studio. Workshop.</p>
-        <p class="module-desc">A new module ships every quarter. Founders vote on what we build next. Garage Sentinel, Studio Mix, and Workshop Eye are in the pipeline.</p>
-        <div class="module-foot">
-          <span class="module-price">—</span>
-          <span class="module-meta">Roadmap</span>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<section id="how" class="how">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">It really is this simple</span>
-      <h2 class="section-title">Plug in once. Forget the cloud forever.</h2>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3 class="step-title">Plug in HEARTH Core.</h3>
-        <p class="step-desc">A single USB-C power cable and your Wi-Fi password. Core boots in 90 seconds and starts mapping your home.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3 class="step-title">Add modules where you need them.</h3>
-        <p class="step-desc">Hold any module near Core for 5 seconds. It pairs over Thread, sets its own location, and joins the mesh.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3 class="step-title">Talk, gesture, or just live.</h3>
-        <p class="step-desc">HEARTH learns your patterns in the first two weeks. By week three, you'll catch it doing things you forgot to ask for.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="specs" class="specs">
-  <div class="container specs-inner">
-    <div class="specs-copy">
-      <span class="kicker">Why local matters</span>
-      <h2 class="section-title">A data centre, the size of a coaster.</h2>
-      <p class="section-lead">
-        Cloud assistants send your voice, video, and habits to someone else's server.
-        HEARTH never does. Everything that makes it smart — the language model, the vision system, the speech engine — runs on a single Jetson chip inside Core.
-      </p>
-      <ul class="check-list">
-        <li><span class="check"></span> 100 TOPS of dedicated AI compute</li>
-        <li><span class="check"></span> 50+ on-device models, including Llama 3.2 and Whisper Large v3</li>
-        <li><span class="check"></span> Zero telemetry. Zero analytics. Zero cloud.</li>
-        <li><span class="check"></span> Optional air-gap mode for full offline operation</li>
-        <li><span class="check"></span> Lifetime updates delivered as signed local packages</li>
-      </ul>
-    </div>
-
-    <div class="specs-card">
-      <div class="specs-card-head">
-        <span>HEARTH Core</span>
-        <span class="specs-pill">v1.0</span>
-      </div>
-      <dl class="specs-list">
-        <div><dt>Compute</dt><dd>NVIDIA Jetson Orin NX 16GB</dd></div>
-        <div><dt>AI performance</dt><dd>100 TOPS (INT8)</dd></div>
-        <div><dt>CPU</dt><dd>8-core ARM Cortex-A78AE</dd></div>
-        <div><dt>Memory</dt><dd>16 GB LPDDR5</dd></div>
-        <div><dt>Storage</dt><dd>1 TB NVMe (user-replaceable)</dd></div>
-        <div><dt>Wireless</dt><dd>Wi-Fi 6E · Matter · Thread · BLE 5.3 · Zigbee</dd></div>
-        <div><dt>Power</dt><dd>25 W idle / 65 W peak</dd></div>
-        <div><dt>Dimensions</dt><dd>140 × 140 × 32 mm</dd></div>
-        <div><dt>Materials</dt><dd>Recycled aluminium · bio-resin base</dd></div>
-        <div><dt>Warranty</dt><dd>3 years, with free repair</dd></div>
-      </dl>
-    </div>
-  </div>
-</section>
-
-<section id="pricing" class="pricing">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Pricing</span>
-      <h2 class="section-title">Reserve with $99. Refundable until ship.</h2>
-      <p class="section-lead">Founders get serialised units, free shipping worldwide, and a permanent 20% discount on every future module.</p>
-    </div>
-
-    <div class="tiers">
-      <article class="tier">
-        <header>
-          <h3>Core</h3>
-          <p>The brain alone. Add modules later.</p>
-        </header>
-        <div class="tier-price"><span class="dollar">$</span>899</div>
-        <ul class="tier-list">
-          <li>HEARTH Core hub</li>
-          <li>Lifetime software updates</li>
-          <li>3-year hardware warranty</li>
-          <li>Free shipping (US, EU, UK, AU)</li>
+      <div class="app-copy reveal">
+        <p class="eyebrow">The app</p>
+        <h2 class="section-headline">Control every mode from one app.</h2>
+        <ul class="app-list">
+          <li>Switch modes from anywhere.</li>
+          <li>Update content for the room.</li>
+          <li>Share access with family.</li>
+          <li>Build your own modes.</li>
         </ul>
-        <a href="#reserve" class="btn btn-ghost btn-block">Reserve · $99 deposit</a>
-      </article>
-
-      <article class="tier tier-featured">
-        <div class="tier-badge">Most reserved</div>
-        <header>
-          <h3>Founders Trio</h3>
-          <p>Core + 2 modules of your choice. Save up to $400.</p>
-        </header>
-        <div class="tier-price"><span class="dollar">$</span>1,799</div>
-        <ul class="tier-list">
-          <li>HEARTH Core</li>
-          <li>Any 2 modules (incl. flagships)</li>
-          <li>Numbered Founders engraving</li>
-          <li>Priority shipping in first wave</li>
-          <li>20% off all future modules — forever</li>
-        </ul>
-        <a href="#reserve" class="btn btn-primary btn-block">Reserve · $99 deposit</a>
-      </article>
-
-      <article class="tier">
-        <header>
-          <h3>Full House</h3>
-          <p>Core + 5 modules. Save up to $1,200. Pro install.</p>
-        </header>
-        <div class="tier-price"><span class="dollar">$</span>3,499</div>
-        <ul class="tier-list">
-          <li>HEARTH Core</li>
-          <li>Any 5 modules (incl. flagships)</li>
-          <li>Free professional install (in 80+ cities)</li>
-          <li>Founders engraving</li>
-          <li>20% off all future modules — forever</li>
-        </ul>
-        <a href="#reserve" class="btn btn-ghost btn-block">Reserve · $99 deposit</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="quotes">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Early access</span>
-      <h2 class="section-title">What the first 200 households are saying.</h2>
-    </div>
-    <div class="quote-grid">
-      <figure class="quote">
-        <blockquote>"Watcher caught my dad's fall in the kitchen at 3am. The ER doctor said it would have been hours before anyone knew. I bought one for each of my siblings the next morning."</blockquote>
-        <figcaption>
-          <span class="avatar a2"></span>
-          <div>
-            <strong>Daniel K.</strong>
-            <span>Brooklyn · Beta cohort 001</span>
-          </div>
-        </figcaption>
-      </figure>
-      <figure class="quote">
-        <blockquote>"Pantry Sentinel told me I was two eggs short of an omelette before I'd opened the fridge. Six months in, my grocery bill is down 22% — just from not buying things I already had."</blockquote>
-        <figcaption>
-          <span class="avatar a1"></span>
-          <div>
-            <strong>Maya R.</strong>
-            <span>Austin · Beta cohort 002</span>
-          </div>
-        </figcaption>
-      </figure>
-      <figure class="quote">
-        <blockquote>"Sous-Chef walked my 14-year-old through pad thai from scratch. The projection on the cutting board is wild. She made dinner three nights this week."</blockquote>
-        <figcaption>
-          <span class="avatar a3"></span>
-          <div>
-            <strong>Priya S.</strong>
-            <span>San Francisco · Beta cohort 003</span>
-          </div>
-        </figcaption>
-      </figure>
-      <figure class="quote">
-        <blockquote>"Memory has settled four arguments and probably saved my marriage. We laugh now. None of it leaves the house, which is the only reason we use it."</blockquote>
-        <figcaption>
-          <span class="avatar a4"></span>
-          <div>
-            <strong>Jordan T.</strong>
-            <span>Portland · Beta cohort 002</span>
-          </div>
-        </figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<section id="reserve" class="reserve">
-  <div class="container reserve-inner">
-    <div class="reserve-copy">
-      <span class="kicker">Reserve yours</span>
-      <h2 class="section-title">Be one of the first 1,000.</h2>
-      <p class="section-lead">$99 secures your place in the founders wave. Fully refundable until ship. Confirm your tier later — we'll email you when configurator opens in July.</p>
-      <ul class="check-list">
-        <li><span class="check"></span> Refundable until your unit ships</li>
-        <li><span class="check"></span> Numbered &amp; engraved Founders edition</li>
-        <li><span class="check"></span> 20% off every future module — for life</li>
-        <li><span class="check"></span> Direct Slack with our engineering team</li>
-      </ul>
-    </div>
-
-    <form id="reserve-form" class="reserve-form" novalidate>
-      <div class="form-head">
-        <span>Reserve a HEARTH</span>
-        <span class="form-badge">12,847 / 25,000</span>
       </div>
+    </div>
+  </section>
 
-      <label class="field">
-        <span>Email</span>
-        <input type="email" name="email" required placeholder="you@home.com" autocomplete="email" />
-      </label>
-
-      <label class="field">
-        <span>Where you'll plug it in</span>
-        <input type="text" name="city" placeholder="City, country" autocomplete="address-level2" />
-      </label>
-
-      <fieldset class="field-group">
-        <legend>Which tier are you eyeing?</legend>
-        <label class="radio">
-          <input type="radio" name="tier" value="core" />
-          <span><strong>Core</strong> · $899</span>
-        </label>
-        <label class="radio">
-          <input type="radio" name="tier" value="trio" checked />
-          <span><strong>Founders Trio</strong> · $1,499</span>
-        </label>
-        <label class="radio">
-          <input type="radio" name="tier" value="full" />
-          <span><strong>Full House</strong> · $2,999</span>
-        </label>
-      </fieldset>
-
-      <button type="submit" class="btn btn-primary btn-block btn-lg">
-        Reserve for $99 →
-      </button>
-
-      <p class="fineprint">
-        Refundable until ship date. We never sell your data — we literally don't have a cloud to put it in.
+  <!-- MANIFESTO -->
+  <section class="manifesto">
+    <div class="manifesto-inner reveal">
+      <p class="manifesto-body">
+        We don't think the future of the home is more screens. We think it's no screens at all. Information should live in the room with you, not in your hand.
       </p>
-    </form>
-  </div>
-</section>
-
-<section id="faq" class="faq">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">FAQ</span>
-      <h2 class="section-title">Real questions, real answers.</h2>
+      <p class="manifesto-sig">— [Founder name], founder</p>
     </div>
+  </section>
 
-    <div class="faq-list">
-      <details>
-        <summary>What happens if my Wi-Fi goes down?</summary>
-        <p>HEARTH keeps working. Modules talk to Core over a local Thread mesh, not your router. The only thing you'll lose is access to the internet from your modules — the AI itself runs entirely on Core.</p>
-      </details>
-      <details>
-        <summary>Can I add modules later?</summary>
-        <p>Yes. Every module pairs in under 30 seconds. Founders get 20% off every future module, permanently.</p>
-      </details>
-      <details>
-        <summary>Is my data really private?</summary>
-        <p>It really is. There's no cloud account because there's no cloud. You can verify it: an optional packet-capture mode shows you every byte Core sends out, and it's none.</p>
-      </details>
-      <details>
-        <summary>When will I get mine?</summary>
-        <p>Founders ship Q4 2026 in numbered order of reservation. Standard reservations ship Q1–Q2 2027. We'll lock your slot at deposit.</p>
-      </details>
-      <details>
-        <summary>Do I need a subscription?</summary>
-        <p>The hub and most modules — no subscription, ever. Software updates are free for life. Three modules (Pantry Sentinel, Watcher, Dietician) include an optional Intelligence layer at $12–$20/mo that powers the data-heavy features. The hardware itself works without it; you just lose the longitudinal analysis.</p>
-      </details>
-      <details>
-        <summary>What about my Alexa / Google Home / HomeKit stuff?</summary>
-        <p>HEARTH speaks Matter and Thread natively, so it'll inherit most of what you've already got. Most beta users retire their previous hubs within the first month.</p>
-      </details>
-      <details>
-        <summary>What's the refund policy?</summary>
-        <p>Your $99 deposit is fully refundable until the moment your unit ships. After delivery, you have 30 days to return the hardware for a full refund.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<section class="footer-cta">
-  <div class="container footer-cta-inner">
-    <div>
-      <span class="kicker">Last call</span>
-      <h2 class="section-title">A home that learns you, not your data.</h2>
-    </div>
-    <a href="#reserve" class="btn btn-primary btn-lg">Reserve for $99 →</a>
-  </div>
-</section>
-
-</main>
-
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <a href="#top" class="logo">
-        <span class="logo-mark"></span>
-        <span class="logo-text">HEARTH</span>
-      </a>
-      <p>One brain. Every room. Zero cloud.</p>
-    </div>
-    <div class="footer-cols">
-      <div>
-        <h4>Product</h4>
-        <a href="#modules">Modules</a>
-        <a href="#specs">Tech</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#reserve">Reserve</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Press</a>
-        <a href="#">Careers</a>
-        <a href="#">Contact</a>
-      </div>
-      <div>
-        <h4>Legal</h4>
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="foot-inner">
+      <div class="foot-brand">LUMA</div>
+      <nav class="foot-nav">
+        <a href="mailto:hello@luma.com">Email</a>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">X</a>
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
-        <a href="#">Security</a>
-        <a href="#">Open source</a>
-      </div>
+      </nav>
+      <p class="foot-place">Made with care in <span class="foot-city">[your city]</span>.</p>
+    </div>
+  </footer>
+
+  <!-- MODE MODAL -->
+  <div class="modal" id="mode-modal" hidden aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="modal-close" type="button" aria-label="Close" id="modal-close">Close</button>
+    <div class="modal-body">
+      <p class="modal-eyebrow" id="modal-eyebrow">Mode</p>
+      <h3 class="modal-title" id="modal-title">Mode</h3>
+      <p class="modal-copy" id="modal-copy">…</p>
+      <ul class="modal-list" id="modal-list"></ul>
     </div>
   </div>
-  <div class="footer-bar">
-    <div class="container footer-bar-inner">
-      <span>© 2026 HEARTH Labs, Inc. · Designed in Brooklyn · Assembled in Texas</span>
-      <span>Made by humans. Powered locally.</span>
-    </div>
-  </div>
-</footer>
 
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <!-- EASTER EGG FLASH -->
+  <div class="easter-egg" id="easter-egg" aria-hidden="true">LUMA</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
